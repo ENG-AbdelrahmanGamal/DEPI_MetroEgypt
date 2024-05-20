@@ -3,7 +3,8 @@ package com.mycompany.metroegypt;
 
 import java.util.*;
 
-public class MetroEgypt {
+public class MetroEgypt implements OpetationOfJourny {
+
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -25,32 +26,23 @@ public class MetroEgypt {
                 Collections.reverse(metro_line_3);
             journey = new ArrayList<>(metro_line_3.subList(metro_line_3.indexOf(startJourney), metro_line_3.indexOf(endJourney) + 1));
 
-
-            System.out.println("wlcome traveling by metro from" + startJourney + " Station to " + endJourney + " Station");
-
-            String Direction = "" + journey.size();
-            int length = journey.size();
-            int price_of_teckit = 0;
-            if (length <= 5) {
-                price_of_teckit = 5;
-            } else if (length <= 10) {
-                price_of_teckit = 8;
-            } else price_of_teckit = 12;
-
+            //the result
+            OpetationOfJourny.welcome_of_Journy(startJourney,endJourney);
             System.out.println("Total of stations is : " + journey.size() + " Stations");
-            System.out.println("the Expected time of your Journy is : " + (journey.size() * 2) + " Min");
-            System.out.println("the price of the Journy is  " + price_of_teckit + " .LE");
-
+            System.out.println("the Expected time of your Journy is : " + (OpetationOfJourny.lengh_by_time(journey.size()) + " Min"));
+            System.out.println("the price of the Journy is  " +  OpetationOfJourny.price(journey.size())+ " .LE");
             System.out.println("the Stations is :" + journey);
 
-
         } else {
+            // the result if the input not any stations
             System.out.println("this not the station try again >>> ");
             return;
         }
         System.out.println("------------------------------------------------------------------------");
 
     }
+
+
 }
 // number of station 
 // time expected 10*2 min
