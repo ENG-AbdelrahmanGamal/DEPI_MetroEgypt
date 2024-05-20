@@ -4,6 +4,12 @@ package com.mycompany.metroegypt;
 import java.util.*;
 
 public class MetroEgypt implements OpetationOfJourny {
+// number of station
+// time expected 10*2 min
+// price of teket more than 10 = 8
+// list to journey  sub list
+// direction of the journey
+// collections.reverse()
 
 
     public static void main(String[] args) {
@@ -34,7 +40,7 @@ public class MetroEgypt implements OpetationOfJourny {
             System.out.println("the Stations is :" + journey);
 
         } else {
-            // the result if the input not any stations
+            // the result if the input invalid
             System.out.println("this not the station try again >>> ");
             return;
         }
@@ -44,12 +50,6 @@ public class MetroEgypt implements OpetationOfJourny {
 
 
 }
-// number of station 
-// time expected 10*2 min
-// price of teket more than 10 = 8 
-// list to journey  sub list
-// direction of the journey
-// collections.reverse()
 
 
 
