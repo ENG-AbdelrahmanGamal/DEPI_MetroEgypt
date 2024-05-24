@@ -17,7 +17,8 @@ public interface OpetationOfJourny {
     static int lengh_by_time(int length){
          return length*2;
     }
+
     static void welcome_of_Journy(String start,String end){
-        System.out.println("wlcome traveling by metro from" + start + " Station to " + end + " Station");
+        System.out.println("welcome traveling by metro from" + start + " Station to " + end + " Station");
     }
 }

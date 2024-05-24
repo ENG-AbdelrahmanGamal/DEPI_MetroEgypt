@@ -15,36 +15,23 @@ public class MetroEgypt implements OpetationOfJourny {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Lines lines = new Lines();
-
-        List metro_line_3 = lines.line_3;
-        List metro_line_2 = lines.line_2;
-        List metro_line_1 = lines.line_1;
-        ArrayList journey;
+        List journey;
         System.out.println("------------------------------------------------------------------------");
-        System.out.println("Welcome in the subway  please insert the start journey: ");
+        System.out.println("please insert the start journey: ");
         String startJourney = input.nextLine();
-
-        System.out.println("Welcome in the subway  please insert the End station of the journey: ");
+        System.out.println("please insert the End station of the journey: ");
         String endJourney = input.nextLine();
+        journey = lines.getJourneyFromTo(startJourney, endJourney);
 
-        if (metro_line_3.contains(startJourney) && metro_line_3.contains(endJourney)) {
-            if (metro_line_3.indexOf(startJourney) > metro_line_3.indexOf(endJourney))
-                Collections.reverse(metro_line_3);
-            journey = new ArrayList<>(metro_line_3.subList(metro_line_3.indexOf(startJourney), metro_line_3.indexOf(endJourney) + 1));
-
-            //the result
-            OpetationOfJourny.welcome_of_Journy(startJourney,endJourney);
-            System.out.println("Total of stations is : " + journey.size() + " Stations");
-            System.out.println("the Expected time of your Journy is : " + (OpetationOfJourny.lengh_by_time(journey.size()) + " Min"));
-            System.out.println("the price of the Journy is  " +  OpetationOfJourny.price(journey.size())+ " .LE");
-            System.out.println("the Stations is :" + journey);
-
-        } else {
-            // the result if the input invalid
-            System.out.println("this not the station try again >>> ");
-            return;
-        }
+        //the result
+        if(lines.found(startJourney,endJourney))
+        OpetationOfJourny.welcome_of_Journy(startJourney, endJourney);
+        System.out.println("Total of stations is : " + journey.size() + " Stations");
+        System.out.println("the Expected time of your Journy is : " + (OpetationOfJourny.lengh_by_time(journey.size()) + " Min"));
+        System.out.println("the price of the Journy is  " + OpetationOfJourny.price(journey.size()) + " .LE");
+        System.out.println("the Stations is :" + journey);
         System.out.println("------------------------------------------------------------------------");
+
 
     }
 
