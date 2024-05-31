@@ -14,7 +14,7 @@ public  String getDirection(String[] line1Stations,
                             String[] line2Stations,
                             String[] line3Stations,
                             String start, String end);
-void addEdgesbyLine(Graph g, String[]line);
+void addEdgesByLine(Graph g, String[]line);
 
-
+    public int numberOfAdjacent(String station);
 }
