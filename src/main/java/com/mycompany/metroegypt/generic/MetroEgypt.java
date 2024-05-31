@@ -1,5 +1,5 @@
 
-package com.mycompany.metroegypt;
+package com.mycompany.metroegypt.generic;
 
 import java.util.*;
 

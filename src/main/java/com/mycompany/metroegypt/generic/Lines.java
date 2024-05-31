@@ -1,4 +1,4 @@
-package com.mycompany.metroegypt;
+package com.mycompany.metroegypt.generic;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public class Lines {
 
         return line_1;
     }
-    Graph<List> g = new Graph<List>();
+//    Graph<List> g = new Graph<List>();
 
     public String fountStart(String startJourney){
         String result=null;

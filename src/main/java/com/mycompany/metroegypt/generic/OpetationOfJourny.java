@@ -1,4 +1,4 @@
-package com.mycompany.metroegypt;
+package com.mycompany.metroegypt.generic;
 
 public interface OpetationOfJourny {
 

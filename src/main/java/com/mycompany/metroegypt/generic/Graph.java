@@ -1,4 +1,4 @@
-package com.mycompany.metroegypt;
+package com.mycompany.metroegypt.generic;
 import java.util.*;
 public class Graph <T>{
        // Java program to implement Graph
