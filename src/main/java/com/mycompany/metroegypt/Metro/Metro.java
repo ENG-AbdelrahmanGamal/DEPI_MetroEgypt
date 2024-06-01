@@ -16,6 +16,7 @@ public interface Metro {
 public  String getDirection(String[] line1Stations,
                             String[] line2Stations,
                             String[] line3Stations,
+                            String[] line4Stations,
                             String start, String end);
 void addEdgesByLine(Graph g, String[]line);
     List<String> shortPath(Map<String, String> parent, String start, String end);

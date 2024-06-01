@@ -27,11 +27,11 @@ public class Graph implements Metro {
 
     @Override
     public void getPriceOfJourney() {
-        if (path.contains("")){ System.out.println("Ticket price  No pounds");}
-            else if (path.size()<=1) {
+        if (path.contains("")) {
+            System.out.println("Ticket price  No pounds");
+        } else if (path.size() <= 1) {
             System.out.println("Ticket price zere pounds");
-        }
-     else if (path.size() <= 9) {
+        } else if (path.size() <= 9) {
             System.out.println("Ticket price  6 pounds");
         } else if (path.size() > 9 && path.size() <= 16) {
             System.out.println("Ticket price  8 pounds");
@@ -44,8 +44,8 @@ public class Graph implements Metro {
 
     @Override
     public void getTimeOfJourney() {
-        int time = path.size() ;
-        if (path.contains("")||path.size()<=1) time = 0;
+        int time = path.size();
+        if (path.contains("") || path.size() <= 1) time = 0;
         int minutes = (time * 2);
         int hours = minutes / 60;
         int remainingMinutes = minutes % 60;
@@ -60,19 +60,24 @@ public class Graph implements Metro {
 
     @Override
     public void addEdge(String s, String d) {
+
         if (!adjacencyList.containsKey(s)) adjacencyList.putIfAbsent(s, new ArrayList<>());
         if (!adjacencyList.containsKey(d)) adjacencyList.putIfAbsent(d, new ArrayList<>());
 
         adjacencyList.get(s).add(d);
         adjacencyList.get(d).add(s);
     }
+    @Override
+    public void addEdgesByLine(Graph g, String[] line) {
+        for (int i = 0; i < line.length - 1; i++) {
+            g.addEdge(line[i], line[i + 1]);
+        }
 
+    }
 
     @Override
     public List<String> BFS(String start, String end) {
-//        if (!path.contains(start) || !path.contains(end)) {
-//            throw new IllegalArgumentException("Invalid input: Start or end vertex does not exist.");
-//        }
+
         Map<String, Boolean> visited = new HashMap<>();
         Queue<String> queue = new LinkedList<>();
         Map<String, String> parent = new HashMap<>();
@@ -104,10 +109,8 @@ public class Graph implements Metro {
     }
 
     private void dfs(String start, String end, Set<String> visited, List<String> path, List<List<String>> paths) {
-//        if (!path.contains(start) || !path.contains(end)) {
-//            throw new IllegalArgumentException("Invalid input: Start or end vertex does not exist.");
-//        }
         if (start.equals(end)) {
+
             paths.add(new ArrayList<>(path));
             return;
         }
@@ -142,12 +145,12 @@ public class Graph implements Metro {
     }
 
 
-
     @Override
-    public String getDirection(String[] line_1, String[] line_2, String[] line_3, String start, String end) {
+    public String getDirection(String[] line_1, String[] line_2, String[] line_3,String[] line_4 ,String start, String end) {
         List<String> line1 = Arrays.asList(line_1);
         List<String> line2 = Arrays.asList(line_2);
         List<String> line3 = Arrays.asList(line_3);
+        List<String> line4 = Arrays.asList(line_4);
         StringBuilder directions = new StringBuilder();
         check_lines(line_1, line_2, line_3, start, end, line1, line2, line3, directions);
 
@@ -240,8 +243,8 @@ public class Graph implements Metro {
         }
     }
 
-    public   List<String> shortPath(Map<String, String> parent, String start, String end) {
-            path = new ArrayList<>();
+    public List<String> shortPath(Map<String, String> parent, String start, String end) {
+        path = new ArrayList<>();
         for (String s = end; s != null; s = parent.get(s)) {
             path.add(s);
         }
@@ -249,35 +252,35 @@ public class Graph implements Metro {
         return path;
     }
 
-    @Override
-    public void addEdgesByLine(Graph g, @NotNull String[] line) {
-        for (int i = 0; i < line.length - 1; i++) {
-            g.addEdge(line[i], line[i + 1]);
-        }
 
-    }
 
     private List<List<String>> getAllPaths(String start, String end) {
-//        if(!path.contains(start)||!path.contains(end))
-//        {
-//            System.out.println("Invalid Input");
-//        }
-            List<List<String>> paths = new ArrayList<>();
+
+        List<List<String>> paths = new ArrayList<>();
         List<String> path = new ArrayList<>();
         Set<String> visited = new HashSet<>();
         path.add(start);
+//        List<List<String>> paths = new ArrayList<>();
+//        List<String> path = this.path;
+//        Set<String> visited = new HashSet<>();
+//        path.add(start);
         dfs(start, end, visited, path, paths);
         return paths;
     }
 
- public    void printAllPaths(String start, String end) {
+    public void printAllPaths(String start, String end) {
 //     if (!path.contains(start) || !path.contains(end)) {
 //         System.out.println("Invalid input: Start or end vertex does not exist.");
 //     }
         List<List<String>> allPaths = getAllPaths(start, end);
         if (allPaths.isEmpty() || allPaths.contains("")) {
             System.out.println("No paths found from " + start + " to " + end + ".");
-        } else {
+        }
+//        else if (!allPaths.contains(start) || !allPaths.contains(end)) {
+//            System.out.println("Invalid Path : print All Path  ");
+//            return;
+//        }
+        else {
             System.out.println("All paths from " + start + " to " + end + ":");
             int pathNumber = 1;
             Map<Integer, String> map = new HashMap<>();
@@ -285,16 +288,15 @@ public class Graph implements Metro {
             for (List<String> path : allPaths) {
                 map.put(path.size(), "path " + pathNumber);
                 if (path.size() < min)
-                    min=path.size();
+                    min = path.size();
                 System.out.println("Path " + pathNumber + ": " + String.join(" -> ", path));
                 pathNumber++;
             }
 
-            System.out.println("Recommended: ("+map.get(min)+") : because it just have "+map.keySet().stream().min(Comparator.naturalOrder()));
+            System.out.println("Recommended: (" + map.get(min) + ") : because it just have " + map.keySet().stream().min(Comparator.naturalOrder()));
 
         }
     }
-
 
 
     private void distrory() {
@@ -309,9 +311,9 @@ public class Graph implements Metro {
         return adjacencyList.get(station).size();
     }
 
-    @NotNull
+
     @Contract(pure = true)
-    private static String getStationName(String[] stations, String stationCode) {
+    public static String getStationName(String[] stations, String stationCode) {
         for (String station : stations) {
             if (station.equals(stationCode)) {
                 return station;
@@ -320,7 +322,9 @@ public class Graph implements Metro {
         return "";
     }
 
-    public void printPath(String start, String end, String[] line_1, String[] line_2, String[] line_3) {
+    public void printPath(String start, String end, String[] line_1, String[] line_2, String[] line_3,String[] line_4) {
+
+        System.out.print("Short Route from [" + start + " to " + end + "]---> ");
 
         List<String> path = BFS(start, end);
         System.out.println(path);
@@ -328,7 +332,8 @@ public class Graph implements Metro {
         if (path.isEmpty() || path.contains("")) {
             System.out.println("No path found from [" + start + " to " + end + "]");
         } else {
-            String direction = getDirection(line_1, line_2, line_3, start, end);
+
+            String direction = getDirection(line_1, line_2, line_3,line_4, start, end);
             System.out.println("Route : " + direction);
         }
     }

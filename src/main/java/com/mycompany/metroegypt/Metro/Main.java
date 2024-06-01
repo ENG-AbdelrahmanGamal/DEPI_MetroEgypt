@@ -8,7 +8,6 @@ public class Main {
 
         Graph graph = new Graph();
         Scanner input = new Scanner(System.in);
-        // System.out.println("\t****** Please if Would to end inter Exit ******  \t\n\n\n");
 
         String[] line_1 = {
                 "Helwan", "Ain Helwan", "Helwan University", "Wadi Hof", "Hadayek Helwan", "El-Maasara", "Tora El-Asmant",
@@ -28,44 +27,45 @@ public class Main {
                 "Adly Mansour", "El Haykestep", "Omar Ibn El-Khattab", "Qobaa", "Hesham Barakat", "El-Nozha",
                 "Nadi El-Shams", "Alf Maskan", "Helioplis", "Haroun", "Al Ahram", "Koliet El Banat", "Stadium",
                 "Fair Zone", "Abbassiya", "Abdou Pasha", "El-Geish", "Bab El-Shaaria", "Attaba", "Nasser", "Maspero",
-                "Safaa-Hijazy", "Kit-Kat", "Sudan", "imbaba", "El-Bohy", "El-Qawmia", "Ring-Road", "Rod El-Farag"
+                "Safaa-Hijazy", "Kit-Kat", "Sudan", "imbaba", "El-Bohy", "El-Qawmia", "Ring-Road", "Rod El Farag Corridor"
         };
-
+        String[] line_4 = {"Kit-Kat","Tawfikia","Wadi El Nile","Gamet El Dowal","Boulak El Dakrour","Cairo University"};
         graph.addEdgesByLine(graph, line_1);
         graph.addEdgesByLine(graph, line_2);
         graph.addEdgesByLine(graph, line_3);
+        graph.addEdgesByLine(graph, line_4);
 
         System.out.print("Please enter the beginning \t");
-
-
-
         String start = input.nextLine();
         System.out.println();
         System.out.print("Please enter arrived station ");
         String end = input.nextLine();
         System.out.println();
 
-//        if (!graph.path.contains(start) || !graph.path.contains(end)) {
-//            System.out.println("Invalid input");
-//            return;
-//        }
-//        if (!graph.path.contains(start) || !graph.path.contains(end)) {
-//            System.out.println("Invalid input: Start or end vertex does not exist.");
-//        }else {
-            graph.printAllPaths(start, end);
-
-            System.out.println("Short Route from [" + start + " to " + end + "]");
-
-            graph.printPath(start, end, line_1, line_2, line_3);
-            graph.getTimeOfJourney();
-            graph.getPriceOfJourney();
-            // System.out.println(graph.numberOfAdjacent(start));
-     //   }
-
-
+      //  checkInvalidInput(graph, start, end);
+          //  graph.shortPath();
+         printing(graph,"Tawfikia","Cairo University");
+        System.out.println(graph.numberOfAdjacent("Rod El-Farag"));
+        System.out.println(graph.numberOfAdjacent("Massara"));
     }
 
+    private static void checkInvalidInput(Graph graph, String start, String end) {
+        if (!graph.path.contains(start) || !graph.path.contains(end)) {
+            System.out.println("Invalid input");
+            return;
+        }
+    }
+
+    public static void  printing(Graph graph,String start,String end){
+    graph.printAllPaths(start, end);
+    System.out.println();
+   // graph.printPath(start, end, line_1, line_2, line_3);
+
+    graph.getTimeOfJourney();
+    graph.getPriceOfJourney();
+}
 }
 
 
-
+//Rod El-Farag   was duplicated
+//Massara
