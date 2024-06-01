@@ -8,10 +8,13 @@ import java.util.*;
 public class Graph implements Metro {
     private Map<String, List<String>> adjacencyList;
     List<String> path;
+    int size_of_shortPath;
 
 
     public Graph() {
+
         this.adjacencyList = new HashMap<>();
+        this.path = new ArrayList<>(); // Initialize path
     }
 
 
@@ -24,8 +27,11 @@ public class Graph implements Metro {
 
     @Override
     public void getPriceOfJourney() {
-        if (path.contains("")) System.out.println("Ticket price  No pounds");
-        else if (path.size() <= 9) {
+        if (path.contains("")){ System.out.println("Ticket price  No pounds");}
+            else if (path.size()<=1) {
+            System.out.println("Ticket price zere pounds");
+        }
+     else if (path.size() <= 9) {
             System.out.println("Ticket price  6 pounds");
         } else if (path.size() > 9 && path.size() <= 16) {
             System.out.println("Ticket price  8 pounds");
@@ -38,10 +44,8 @@ public class Graph implements Metro {
 
     @Override
     public void getTimeOfJourney() {
-        int time = path.size() * 2;
-
-        if (path.contains("")) time = 0;
-
+        int time = path.size() ;
+        if (path.contains("")||path.size()<=1) time = 0;
         int minutes = (time * 2);
         int hours = minutes / 60;
         int remainingMinutes = minutes % 60;
@@ -66,6 +70,9 @@ public class Graph implements Metro {
 
     @Override
     public List<String> BFS(String start, String end) {
+//        if (!path.contains(start) || !path.contains(end)) {
+//            throw new IllegalArgumentException("Invalid input: Start or end vertex does not exist.");
+//        }
         Map<String, Boolean> visited = new HashMap<>();
         Queue<String> queue = new LinkedList<>();
         Map<String, String> parent = new HashMap<>();
@@ -77,7 +84,7 @@ public class Graph implements Metro {
             String current = queue.poll();
 
             if (current.equals(end)) {
-                return allPath(parent, start, end);
+                return shortPath(parent, start, end);
             }
 
             for (String neighbor : adjacencyList.getOrDefault(current, new ArrayList<>())) {
@@ -89,6 +96,33 @@ public class Graph implements Metro {
             }
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public void DFS(String start, String end, Set<String> visited, List<String> path, List<List<String>> paths) {
+
+    }
+
+    private void dfs(String start, String end, Set<String> visited, List<String> path, List<List<String>> paths) {
+//        if (!path.contains(start) || !path.contains(end)) {
+//            throw new IllegalArgumentException("Invalid input: Start or end vertex does not exist.");
+//        }
+        if (start.equals(end)) {
+            paths.add(new ArrayList<>(path));
+            return;
+        }
+
+        visited.add(start);
+
+        for (String neighbor : adjacencyList.get(start)) {
+            if (!visited.contains(neighbor)) {
+                path.add(neighbor);
+                dfs(neighbor, end, visited, path, paths);
+                path.remove(path.size() - 1);
+            }
+        }
+
+        visited.remove(start);
     }
 
     public Set<String> depthFirstTraversal(Graph graph, String root) {
@@ -107,41 +141,31 @@ public class Graph implements Metro {
         return visited;
     }
 
-    public LinkedList<String> adjacentVertex(String last) {
-        LinkedHashSet<String> adjacente = new LinkedHashSet(Arrays.asList(adjacencyList.get(last)));
-        System.out.println("adjacentes:" + adjacente);
-        if (adjacente == null) {
-            return new LinkedList<String>();
-        }
-        return new LinkedList<String>(adjacente);
-    }
+
 
     @Override
     public String getDirection(String[] line_1, String[] line_2, String[] line_3, String start, String end) {
         List<String> line1 = Arrays.asList(line_1);
         List<String> line2 = Arrays.asList(line_2);
         List<String> line3 = Arrays.asList(line_3);
-
         StringBuilder directions = new StringBuilder();
-
-
         check_lines(line_1, line_2, line_3, start, end, line1, line2, line3, directions);
 
         return directions.toString();
     }
 
     private static void check_lines(String[] line_1, String[] line_2, String[] line_3, String start, String end, List<String> line1, List<String> line2, List<String> line3, StringBuilder directions) {
-        // Check if start and end are on the same line
+        // Check the station if both on the same line
         theSameLine(line_1, line_2, line_3, start, end, line1, line2, line3, directions);
 
-        // Check for interchange stations between different lines
+        // Check for two station not the same line
         theDifferentLine(line_1, line_2, line_3, start, end, line1, line2, line3, directions);
 
     }
 
     private static void theDifferentLine(String[] line_1, String[] line_2, String[] line_3, String start, String end, List<String> line1, List<String> line2, List<String> line3, StringBuilder directions) {
         StringBuilder More_directions = new StringBuilder();
-        String[] Station_transfer = {"Attaba,Sadat", "Nasser",};
+
         if (line1.contains(start) && line3.contains(end)) {
             directions.append("Line 1 (");
             directions.append(getStationName(line_1, start));
@@ -172,11 +196,11 @@ public class Graph implements Metro {
 
     private static void theSameLine(String[] line_1, String[] line_2, String[] line_3, String start, String end, List<String> line1, List<String> line2, List<String> line3, StringBuilder directions) {
         if (line1.contains(start) && line1.contains(end)) {
-            directions.append("Line 1 (");
+            directions.append("Your Journey on the same Line 1 [");
             directions.append(getStationName(line_1, start));
-            directions.append(") to Line 1 (");
+            directions.append(" : ");
             directions.append(getStationName(line_1, end));
-            directions.append(")");
+            directions.append("]");
             if (line1.indexOf(start) > line1.indexOf(end)) {
                 System.out.println("The direction is Helwan");
             } else {
@@ -186,11 +210,11 @@ public class Graph implements Metro {
 
         } else if (line2.contains(start) && line2.contains(end)) {
 
-            directions.append("Line 2 (");
+            directions.append("Your Journey on the same Line 2 [");
             directions.append(getStationName(line_2, start));
-            directions.append(") to Line 2 (");
+            directions.append(" : ");
             directions.append(getStationName(line_2, end));
-            directions.append(")");
+            directions.append("]");
 
             if (line1.indexOf(start) > line1.indexOf(end)) {
                 System.out.println("The direction is El Monib");
@@ -202,17 +226,22 @@ public class Graph implements Metro {
 
         } else if (line3.contains(start) && line3.contains(end)) {
 
-            directions.append("Line 3 (");
+            directions.append("Your Journey on the same Line 3 [");
             directions.append(getStationName(line_3, start));
-            directions.append(") to Line 3 (");
+            directions.append(" : ");
             directions.append(getStationName(line_3, end));
-            directions.append(")");
+            directions.append("]");
+            if (line3.indexOf(start) > line3.indexOf(end)) {
+                System.out.println("The direction is Adly Mansour");
+
+            } else {
+                System.out.println("The direction is Rod El Farag");
+            }
         }
     }
 
-    private List<String> allPath(Map<String, String> parent, String start, String end) {
-        path = new ArrayList<>();
-
+    public   List<String> shortPath(Map<String, String> parent, String start, String end) {
+            path = new ArrayList<>();
         for (String s = end; s != null; s = parent.get(s)) {
             path.add(s);
         }
@@ -229,7 +258,11 @@ public class Graph implements Metro {
     }
 
     private List<List<String>> getAllPaths(String start, String end) {
-        List<List<String>> paths = new ArrayList<>();
+//        if(!path.contains(start)||!path.contains(end))
+//        {
+//            System.out.println("Invalid Input");
+//        }
+            List<List<String>> paths = new ArrayList<>();
         List<String> path = new ArrayList<>();
         Set<String> visited = new HashSet<>();
         path.add(start);
@@ -237,7 +270,10 @@ public class Graph implements Metro {
         return paths;
     }
 
-    void printAllPaths(String start, String end) {
+ public    void printAllPaths(String start, String end) {
+//     if (!path.contains(start) || !path.contains(end)) {
+//         System.out.println("Invalid input: Start or end vertex does not exist.");
+//     }
         List<List<String>> allPaths = getAllPaths(start, end);
         if (allPaths.isEmpty() || allPaths.contains("")) {
             System.out.println("No paths found from " + start + " to " + end + ".");
@@ -259,23 +295,10 @@ public class Graph implements Metro {
         }
     }
 
-    private void dfs(String current, String end, Set<String> visited, List<String> path, List<List<String>> paths) {
-        if (current.equals(end)) {
-            paths.add(new ArrayList<>(path));
-            return;
-        }
 
-        visited.add(current);
 
-        for (String neighbor : adjacencyList.get(current)) {
-            if (!visited.contains(neighbor)) {
-                path.add(neighbor);
-                dfs(neighbor, end, visited, path, paths);
-                path.remove(path.size() - 1);
-            }
-        }
+    private void distrory() {
 
-        visited.remove(current);
     }
 
     @Override
@@ -298,6 +321,7 @@ public class Graph implements Metro {
     }
 
     public void printPath(String start, String end, String[] line_1, String[] line_2, String[] line_3) {
+
         List<String> path = BFS(start, end);
         System.out.println(path);
 
