@@ -265,6 +265,7 @@ public class Graph implements Metro {
 //        Set<String> visited = new HashSet<>();
 //        path.add(start);
         dfs(start, end, visited, path, paths);
+        BFS(start,end);
         return paths;
     }
 

@@ -1,5 +1,7 @@
 package com.mycompany.metroegypt.Metro;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,7 +31,7 @@ public class Main {
                 "Fair Zone", "Abbassiya", "Abdou Pasha", "El-Geish", "Bab El-Shaaria", "Attaba", "Nasser", "Maspero",
                 "Safaa-Hijazy", "Kit-Kat", "Sudan", "imbaba", "El-Bohy", "El-Qawmia", "Ring-Road", "Rod El Farag Corridor"
         };
-        String[] line_4 = {"Kit-Kat","Tawfikia","Wadi El Nile","Gamet El Dowal","Boulak El Dakrour","Cairo University"};
+        String[] line_4 = {"Kit-Kat", "Tawfikia", "Wadi El Nile", "Gamet El Dowal", "Boulak El Dakrour", "Cairo University"};
         graph.addEdgesByLine(graph, line_1);
         graph.addEdgesByLine(graph, line_2);
         graph.addEdgesByLine(graph, line_3);
@@ -42,28 +44,31 @@ public class Main {
         String end = input.nextLine();
         System.out.println();
 
-      //  checkInvalidInput(graph, start, end);
-          //  graph.shortPath();
-         printing(graph,"Tawfikia","Cairo University");
+
+        checkInvalidInput(line_1, start, end);
+
+        //  graph.shortPath();
+        printing(graph, start, end);
+        graph.printPath(start, end, line_1, line_2, line_3, line_4);
         System.out.println(graph.numberOfAdjacent("Rod El-Farag"));
         System.out.println(graph.numberOfAdjacent("Massara"));
     }
 
-    private static void checkInvalidInput(Graph graph, String start, String end) {
-        if (!graph.path.contains(start) || !graph.path.contains(end)) {
+    private static void checkInvalidInput(String[] list, String start, String end) {
+        if (!Graph.getStationName(list, start).contains(start) || !Graph.getStationName(list, end).contains(end)) {
             System.out.println("Invalid input");
             return;
         }
     }
 
-    public static void  printing(Graph graph,String start,String end){
-    graph.printAllPaths(start, end);
-    System.out.println();
-   // graph.printPath(start, end, line_1, line_2, line_3);
+    public static void printing(Graph graph, String start, String end) {
+        graph.printAllPaths(start, end);
+        System.out.println();
 
-    graph.getTimeOfJourney();
-    graph.getPriceOfJourney();
-}
+
+        graph.getTimeOfJourney();
+        graph.getPriceOfJourney();
+    }
 }
 
 
